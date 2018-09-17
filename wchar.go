@@ -56,7 +56,7 @@ func WcharStringPtrToGoString(in *Wchar) string {
         return convertWcharStringToGoString(FromWcharStringPtr(first))
 }
 
-func (out *Wchar) convertGoStringToWcharString(input string) {
+func convertGoStringToWcharString(input string, out *Wchar) {
         if input == "" {
                 zs := NewWcharString(0)
                 out = &zs[0]
