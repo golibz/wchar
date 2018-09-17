@@ -17,10 +17,6 @@ type Wchar uint8
 
 type WcharString []Wchar
 
-func NewWcharString(length int) WcharString {
-	return make(WcharString, length)
-}
-
 func (out *Wchar) FromStr(s string) {
 	ConvertGoStringToWcharString(s, out)
 }
@@ -31,7 +27,7 @@ func ToStr(in *Wchar) string {
 
 func ConvertGoStringToWcharString(input string, out *Wchar) {
 	if input == "" {
-		zs := NewWcharString(0)
+		zs := make(WcharString, length)
 		out = &zs[0]
 	}
 
