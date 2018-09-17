@@ -29,29 +29,6 @@ func ToStr(in *Wchar) string {
 	return ConvertWcharStringToGoString(in)
 }
 
-func FromWcharStringPtr() WcharString {
-	if uintptr(first) == 0x0 {
-		return NewWcharString(0)
-	}
-
-	wcharPtr := uintptr(first)
-
-	ws := make(WcharString, 0)
-
-	var w Wchar
-	for {
-		w = *((*Wchar)(unsafe.Pointer(wcharPtr)))
-		if w == 0 {
-			break
-		}
-
-		ws = append(ws, w)
-		wcharPtr += Wsize
-	}
-
-	return ws
-}
-
 func ConvertGoStringToWcharString(input string, out *Wchar) {
 	if input == "" {
 		zs := NewWcharString(0)
