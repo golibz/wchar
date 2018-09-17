@@ -21,7 +21,7 @@ func NewWcharString(length int) WcharString {
         return make(WcharString, length)
 }
 
-func (out *Wchar) FromGoString(s string) {
+func (out *Wchar) FromStr(s string) {
         ConvertGoStringToWcharString(s, out)
 }
 
