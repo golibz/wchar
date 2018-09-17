@@ -33,7 +33,7 @@ func ToStr(in *Wchar) string {
         return ConvertWcharStringToGoString(FromWcharStringPtr(first))
 }
 
-func FromWcharStringPtr(first unsafe.Pointer) WcharString {
+func FromWcharStringPtr() WcharString {
         if uintptr(first) == 0x0 {
                 return NewWcharString(0)
         }
@@ -73,9 +73,23 @@ func ConvertGoStringToWcharString(input string, out *Wchar) {
         C.memcpy(unsafe.Pointer(out), unsafe.Pointer(&ret[0]), C.size_t(outLen))
 }
 
-func ConvertWcharStringToGoString(ws WcharString) (output string) {
-        if len(ws) == 0 {
+func ConvertWcharStringToGoString(first unsafe.Pointer) (output string) {
+        if uintptr(first) == 0x0 {
                 return ""
+        }
+
+        wcharPtr := uintptr(first)
+        ws := make(WcharString, 0)
+
+        var w Wchar
+        for {
+                w = *((*Wchar)(unsafe.Pointer(wcharPtr)))
+                if w == 0 {
+                        break
+                }
+
+                ws = append(ws, w)
+                wcharPtr += Wsize
         }
 
         inputAsCChars := make([]C.char, 0, len(ws)*4)
