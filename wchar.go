@@ -26,11 +26,7 @@ func (out *Wchar) FromStr(s string) {
 }
 
 func ToStr(in *Wchar) string {
-        first := unsafe.Pointer(in)
-        if uintptr(first) == 0x0 {
-                return ""
-        }
-        return ConvertWcharStringToGoString(FromWcharStringPtr(first))
+        return ConvertWcharStringToGoString(in)
 }
 
 func FromWcharStringPtr() WcharString {
@@ -74,6 +70,7 @@ func ConvertGoStringToWcharString(input string, out *Wchar) {
 }
 
 func ConvertWcharStringToGoString(first unsafe.Pointer) (output string) {
+        first := unsafe.Pointer(in)
         if uintptr(first) == 0x0 {
                 return ""
         }
