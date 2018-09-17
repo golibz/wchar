@@ -25,7 +25,7 @@ func ToStr(in *Wchar) string {
 	return ConvertWcharStringToGoString(in)
 }
 
-func ConvertGoStringToWcharString(input string, out *Wchar) {
+func ConvertGoStringToWchar(input string, out *Wchar) {
 	if input == "" {
 		zs := make(WcharString, 0)
 		out = &zs[0]
@@ -42,36 +42,20 @@ func ConvertGoStringToWcharString(input string, out *Wchar) {
 	C.memcpy(unsafe.Pointer(out), unsafe.Pointer(&ret[0]), C.size_t(outLen))
 }
 
-func ConvertWcharStringToGoString(in *Wchar) (output string) {
-	first := unsafe.Pointer(in)
-	if uintptr(first) == 0x0 {
-		return ""
-	}
+func ConvertWcharToGoString(in *Wchar) string {
+	out := ""
 
-	wcharPtr := uintptr(first)
-	ws := make(WcharString, 0)
-
-	var w Wchar
+	wcharPtr := uintptr(unsafe.Pointer(in))
 	for {
-		w = *((*Wchar)(unsafe.Pointer(wcharPtr)))
+		w := *((*Wchar)(unsafe.Pointer(wcharPtr)))
 		if w == 0 {
 			break
 		}
 
 		ws = append(ws, w)
+		out += C.GoString(C.char(ws))
 		wcharPtr += Wsize
 	}
 
-	inputAsCChars := make([]C.char, 0, len(ws)*4)
-	wcharAsBytes := make([]byte, 4)
-	for _, nextWchar := range ws {
-		binary.LittleEndian.PutUint32(wcharAsBytes, uint32(nextWchar))
-		for i := 0; i < 4; i++ {
-			inputAsCChars = append(inputAsCChars, C.char(wcharAsBytes[i]))
-		}
-	}
-
-	output = C.GoStringN((*C.char)(&inputAsCChars[0]), (C.int)(len(inputAsCChars)))
-
-	return output
+	return out
 }
