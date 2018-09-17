@@ -7,7 +7,6 @@ package wchar
 import "C"
 
 import (
-	"encoding/binary"
 	"unsafe"
 )
 
@@ -18,11 +17,11 @@ type Wchar uint8
 type WcharString []Wchar
 
 func (out *Wchar) FromStr(s string) {
-	ConvertGoStringToWcharString(s, out)
+	ConvertGoStringToWchar(s, out)
 }
 
 func ToStr(in *Wchar) string {
-	return ConvertWcharStringToGoString(in)
+	return ConvertWcharToGoString(in)
 }
 
 func ConvertGoStringToWchar(input string, out *Wchar) {
