@@ -27,7 +27,7 @@ func ToStr(in *Wchar) string {
 
 func ConvertGoStringToWcharString(input string, out *Wchar) {
 	if input == "" {
-		zs := make(WcharString, length)
+		zs := make(WcharString, 0)
 		out = &zs[0]
 	}
 
