@@ -46,12 +46,12 @@ func ConvertWcharToGoString(in *Wchar) string {
 
 	wcharPtr := uintptr(unsafe.Pointer(in))
 	for {
-		w := *((*Wchar)(unsafe.Pointer(wcharPtr)))
-		if w == 0 {
+		s := string(C.GoBytes(unsafe.Pointer(wcharPtr), 1))
+		if s == "\000" {
 			break
 		}
 
-		out += C.GoString((*C.char)(&w))
+		out += s
 		wcharPtr += Wsize
 	}
 
