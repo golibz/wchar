@@ -69,7 +69,7 @@ func ConvertGoStringToWcharString(input string, out *Wchar) {
 	C.memcpy(unsafe.Pointer(out), unsafe.Pointer(&ret[0]), C.size_t(outLen))
 }
 
-func ConvertWcharStringToGoString(first unsafe.Pointer) (output string) {
+func ConvertWcharStringToGoString(in *Wchar) (output string) {
 	first := unsafe.Pointer(in)
 	if uintptr(first) == 0x0 {
 		return ""
