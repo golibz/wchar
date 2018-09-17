@@ -22,7 +22,7 @@ func NewWcharString(length int) WcharString {
 }
 
 func (out *Wchar) FromGoString(s string) {
-        out.convertGoStringToWcharString(s)
+        convertGoStringToWcharString(s, out)
 }
 
 func FromWcharStringPtr(first unsafe.Pointer) WcharString {
