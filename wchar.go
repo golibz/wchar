@@ -51,7 +51,7 @@ func ConvertWcharToGoString(in *Wchar) string {
 			break
 		}
 
-		out += C.GoString((*C.char)(w))
+		out += C.GoString((*C.char)(*w))
 		wcharPtr += Wsize
 	}
 
