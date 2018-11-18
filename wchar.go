@@ -30,13 +30,14 @@ func ConvertGoStringToWchar(input string, out *Wchar) {
 		out = &zs[0]
 	}
 
-	outLen := len(input) * Wsize
+	outLen := (len(input) * Wsize) + 1
 
 	ret := make(WcharString, 0, outLen)
 
 	for _, char := range input {
 		ret = append(ret, Wchar(char), Wchar(0))
 	}
+	ret = append(ret, Wchar(0))
 
 	C.memcpy(unsafe.Pointer(out), unsafe.Pointer(&ret[0]), C.size_t(outLen))
 }
